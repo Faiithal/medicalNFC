@@ -17,8 +17,13 @@ class PatientController extends Controller
      * @param \App\Models\Patient $patient
      * @return mixed|\Illuminate\Http\JsonResponse
      */
-    public function show(Patient $patient)
+    public function show(int $patient)
     {
+        $patient = Patient::where("card_id", $patient)->first();
+        if(is_null($patient)){
+            return response()->json(["ok" => false, "message" => "Not Found!"], 404);
+        }
+        
         $patient->conditions;
         return $this->Ok($patient);
     }
