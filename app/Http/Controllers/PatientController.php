@@ -36,7 +36,7 @@ class PatientController extends Controller
     public function store(Request $request)
     {
         $validator = validator($request->all(), [
-            'card_id' => 'required|string|unique:Patients,card_id',
+            'card_id' => 'required|string|unique:patients,card_id',
             'first_name' => 'required|string|max: 64',
             'middle_name' => 'required|string|max: 64',
             'last_name' => 'required|string|max: 64',
@@ -61,7 +61,7 @@ class PatientController extends Controller
     public function update(Request $request, Patient $patient)
     {
         $validator = validator($request->all(), [
-            'card_id' => 'sometimes|string|unique:patients,card_id', // in case Patient wants to change cards or any the fol. info now
+            'card_id' => 'sometimes|string|unique:patients,card_id,' . $patient->id, // in case Patient wants to change cards or any the fol. info now
             'first_name' => 'sometimes|string|max: 64',
             'middle_name' => 'sometimes|string|max: 64',
             'last_name' => 'sometimes|string|max: 64',
