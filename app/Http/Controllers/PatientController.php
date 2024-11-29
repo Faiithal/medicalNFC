@@ -19,7 +19,7 @@ class PatientController extends Controller
      */
     public function show(Patient $patient)
     {
-        return $this->Ok($patient->all());
+        return $this->Ok($patient);
     }
 
     /**
