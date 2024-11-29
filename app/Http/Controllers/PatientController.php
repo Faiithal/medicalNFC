@@ -60,13 +60,17 @@ class PatientController extends Controller
             'middle_name' => 'sometimes|string|max: 64',
             'last_name' => 'sometimes|string|max: 64',
             'age' => 'sometimes|integer|max:200',
+            'conditions' => 'sometimes|array',
+            'conditions.*' => 'sometimes|exists:conditions,id',
             'status' => 'required|in:Alive,Deceased,Missing'
         ]);
 
         if ($validator->fails()) {
             return $this->BadRequest($validator);
         }
-            $patient->update($validator->validated());
+            $patient_data = $validator->safe()->except("conditions");
+            $patient->update($patient_data);
+            $patient->conditions()->sync($validator->validated()["conditions"]);
             return $this->Ok($patient, 'Edited Successfully');
 
         
